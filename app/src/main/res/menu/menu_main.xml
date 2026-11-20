@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh_white"
+        android:title="刷新"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_mark_all_read"
+        android:title="全部标为已读"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_feeds"
+        android:title="订阅源"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_manage_feeds"
+        android:title="订阅源管理"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_notify_center"
+        android:icon="@drawable/ic_rss_white"
+        android:title="通知提醒中心"
+        app:showAsAction="never" />
+</menu>

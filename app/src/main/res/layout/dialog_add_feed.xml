@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="18dp"
+    android:paddingBottom="6dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="名称（可留空，留空则自动取源站标题）"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/input_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="例如：少数派"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textColorHint="@color/text_tertiary"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="RSS 地址"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/input_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="例如：https://sspai.com/feed"
+        android:importantForAutofill="no"
+        android:inputType="textUri"
+        android:maxLines="1"
+        android:textColorHint="@color/text_tertiary"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="支持 RSS 2.0 / Atom / RSS 1.0，地址需以 http:// 或 https:// 开头"
+        android:textColor="@color/text_tertiary"
+        android:textSize="12sp" />
+</LinearLayout>

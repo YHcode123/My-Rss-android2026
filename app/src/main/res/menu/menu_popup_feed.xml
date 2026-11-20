@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/popup_feed_read"
+        android:title="该源全部标为已读" />
+
+    <item
+        android:id="@+id/popup_feed_delete"
+        android:title="删除订阅源" />
+</menu>

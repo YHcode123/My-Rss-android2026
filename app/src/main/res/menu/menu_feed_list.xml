@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_manage"
+        android:title="管理订阅源"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_refresh_all"
+        android:title="刷新全部源"
+        app:showAsAction="never" />
+</menu>

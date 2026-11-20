@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 固定浅色主题，保证答辩演示时界面表现一致 -->
+    <style name="Theme.RssReader" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/bg_page</item>
+        <item name="android:statusBarColor">@color/brand_dark</item>
+        <item name="android:navigationBarColor">@color/bg_page</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

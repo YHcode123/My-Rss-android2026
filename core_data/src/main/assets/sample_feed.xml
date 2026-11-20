@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  内置离线示例源：随 App 打包在 assets 中，
+  即使完全没有网络也能演示「离线缓存 / 已读未读 / 星标收藏」三个功能点。
+  内容本身也顺带说明了本工程的关键设计。
+-->
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>本地示例源（离线可读）</title>
+        <link>https://example.com/rss-reader-demo</link>
+        <description>课程设计内置示例订阅源，断网也能阅读</description>
+        <language>zh-cn</language>
+        <lastBuildDate>Thu, 05 Nov 2026 20:00:00 +0800</lastBuildDate>
+
+        <item>
+            <title>离线优先：RSS 阅读器怎么做到断网也能读</title>
+            <link>https://example.com/rss-reader-demo/offline-first</link>
+            <guid isPermaLink="false">demo-offline-first</guid>
+            <author>课程设计组</author>
+            <pubDate>Thu, 05 Nov 2026 19:30:00 +0800</pubDate>
+            <description><![CDATA[
+                <p>在线阅读器最常见的体验断点，是地铁里没信号时打开 App 一片空白。解决思路是"离线优先"：把文章正文和阅读状态都落到本地数据库，网络只负责同步增量。</p>
+                <p>具体到本次实现，刷新订阅源时先把解析出来的文章写入 SQLite 的 articles 表，详情页展示的正文直接来自这张表；只有在用户主动点"在浏览器中打开"时才依赖网络。</p>
+            ]]></description>
+            <content:encoded><![CDATA[
+                <h3>为什么选择"先落库、后渲染"</h3>
+                <p>如果列表和详情都直接渲染内存里的解析结果，进程被杀或网络中断后数据就丢失了。把 SQLite 当作唯一数据源之后，界面只关心"查出来什么就渲染什么"，离线与在线走的是同一条路径。</p>
+                <h3>缓存里要存哪些字段</h3>
+                <p>除了标题、正文、发布时间，还要存 guid。guid 是订阅源给文章的唯一标识，用它做联合唯一约束，才能保证反复刷新时不会插入重复文章，也不会覆盖掉用户的已读和收藏状态。</p>
+                <h3>怎么验证</h3>
+                <p>打开飞行模式，再进一次详情页：标题、来源、时间、正文、星标状态都应该原样显示，这就是离线缓存生效了。</p>
+            ]]></content:encoded>
+            <dc:creator>课程设计组</dc:creator>
+        </item>
+
+        <item>
+            <title>一篇文章的完整生命周期：从 XML 到 SQLite</title>
+            <link>https://example.com/rss-reader-demo/article-lifecycle</link>
+            <guid isPermaLink="false">demo-article-lifecycle</guid>
+            <author>课程设计组</author>
+            <pubDate>Thu, 05 Nov 2026 15:10:00 +0800</pubDate>
+            <description><![CDATA[
+                <p>抓取、解码、解析、入库、查询、渲染，六个阶段里最容易出问题的是解码和入库。</p>
+            ]]></description>
+            <content:encoded><![CDATA[
+                <h3>阶段一：抓取</h3>
+                <p>HttpURLConnection 设置连接超时 10 秒、读取超时 15 秒，并带上 User-Agent，避免被源站当成爬虫直接拒绝。</p>
+                <h3>阶段二：解码</h3>
+                <p>先拿到原始字节，按 XML 声明里的 encoding 判断字符集，取不到再看 HTTP 头的 charset，最后兜底 UTF-8。直接按 UTF-8 硬解 GB2312 的源会整篇乱码。</p>
+                <h3>阶段三：解析</h3>
+                <p>XmlPullParser 边读边处理，内存占用小。关闭命名空间处理后，把标签名去前缀并转小写，就能用一套逻辑兼容 RSS 2.0 的 item、Atom 的 entry 和 RDF 的 dc:date。</p>
+                <h3>阶段四：入库</h3>
+                <p>用 INSERT OR IGNORE 判断是否是新文章；已存在的记录只 UPDATE 内容字段，is_read 与 is_starred 保持原值，这是"刷新不丢状态"的关键。</p>
+            ]]></content:encoded>
+            <dc:creator>课程设计组</dc:creator>
+        </item>
+
+        <item>
+            <title>已读未读与星标：阅读状态应该存在哪里</title>
+            <link>https://example.com/rss-reader-demo/read-state</link>
+            <guid isPermaLink="false">demo-read-state</guid>
+            <author>课程设计组</author>
+            <pubDate>Wed, 04 Nov 2026 21:05:00 +0800</pubDate>
+            <description><![CDATA[
+                <p>已读和星标属于"用户产生的数据"，必须和源站数据分开保存，否则一次刷新就会被源站的旧数据覆盖。</p>
+            ]]></description>
+            <content:encoded><![CDATA[
+                <h3>两张表，还是一张表</h3>
+                <p>课程设计里把 is_read、is_starred 直接放在 articles 表上即可，省掉一次关联查询。真正需要独立表的时候，是多设备同步阅读状态，那时状态会变成"用户 × 文章"的二维关系。</p>
+                <h3>视觉上怎么区分</h3>
+                <p>未读用蓝色小圆点加粗体标题，已读转灰并取消加粗；星标用实心与空心图标区分。这样用户扫一眼列表就知道哪些没读、哪些收藏了。</p>
+                <h3>批量操作</h3>
+                <p>工具栏提供"全部标为已读"，进入未读标签后如果列表为空，给出"全部已读"的提示页而不是留白。</p>
+            ]]></content:encoded>
+            <dc:creator>课程设计组</dc:creator>
+        </item>
+
+        <item>
+            <title>为什么解析器要自己判断字符编码</title>
+            <link>https://example.com/rss-reader-demo/charset</link>
+            <guid isPermaLink="false">demo-charset</guid>
+            <author>课程设计组</author>
+            <pubDate>Wed, 04 Nov 2026 10:20:00 +0800</pubDate>
+            <description><![CDATA[
+                <p>同一个 RSS 地址，浏览器打开正常，App 里却全是乱码，九成是字符集判断错了。</p>
+            ]]></description>
+            <content:encoded><![CDATA[
+                <h3>编码声明的三个来源</h3>
+                <p>XML 声明里的 encoding、HTTP 响应头的 charset、以及源站实际返回的字节。三者不一致时，以 XML 声明为准最稳妥，因为解析器本身就是按它来切的。</p>
+                <h3>为什么用 ISO-8859-1 读文件头</p>
+                <p>判断编码时必须先把文件头当成"字节到字符"的无损映射读出来，ISO-8859-1 恰好是一字节一字符，任何字节都不会解码失败，encoding="..." 这段 ASCII 自然也不会被破坏。</p>
+            ]]></content:encoded>
+            <dc:creator>课程设计组</dc:creator>
+        </item>
+
+        <item>
+            <title>课程设计答辩要点清单</title>
+            <link>https://example.com/rss-reader-demo/defense-checklist</link>
+            <guid isPermaLink="false">demo-defense-checklist</guid>
+            <author>课程设计组</author>
+            <pubDate>Tue, 03 Nov 2026 09:00:00 +0800</pubDate>
+            <description><![CDATA[
+                <p>答辩时按"功能点、实现路径、验证方式"三段式讲，比逐个念代码有效得多。</p>
+            ]]></description>
+            <content:encoded><![CDATA[
+                <h3>功能点对应代码位置</h3>
+                <p>离线缓存对应 DbHelper 与 ArticleDao.upsertAll；已读未读对应 markRead 与列表的视觉区分；星标收藏对应 toggleStar 与"星标"标签页。</p>
+                <h3>现场演示顺序</h3>
+                <p>先刷新拉取，再打开一篇文章讲已读状态变化，接着点星标切到星标标签，最后开飞行模式重进详情页，证明正文来自本地缓存。</p>
+                <h3>可能被追问的问题</h3>
+                <p>重复文章怎么去重、刷新会不会覆盖已读、断网时列表从哪来、订阅源解析失败怎么办。四个问题的答案都在数据层，讲清楚 SQLite 是唯一数据源就能串起来。</p>
+            ]]></content:encoded>
+            <dc:creator>课程设计组</dc:creator>
+        </item>
+
+    </channel>
+</rss>

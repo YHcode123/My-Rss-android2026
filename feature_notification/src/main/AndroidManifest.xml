@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android 13 起发通知需要运行时权限；被拒绝时本模块静默降级 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application>
+        <!-- 通知中心页：既可从主 App 进入，也可被自定义 action 独立唤起 -->
+        <activity
+            android:name=".ui.NotificationCenterActivity"
+            android:exported="true"
+            android:label="通知提醒中心"
+            android:theme="@style/Theme.RssReader.NotifyCenter">
+            <intent-filter>
+                <action android:name="com.example.rssreader.notify.action.OPEN_CENTER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 通知上「全部标为已读」的接收者 -->
+        <receiver
+            android:name=".MarkAllReadReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.rssreader.notify.action.MARK_ALL_READ" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

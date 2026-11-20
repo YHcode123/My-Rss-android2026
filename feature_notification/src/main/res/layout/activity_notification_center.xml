@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/notify_bg_page"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/notify_brand"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_notify_back"
+        app:title="通知提醒中心"
+        app:titleTextColor="@android:color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="未读提醒"
+                android:textColor="@color/notify_text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="定时检查订阅源，有未读文章就发通知，可直接在通知上把未读清零。"
+                android:textColor="@color/notify_text_secondary"
+                android:textSize="13sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/notify_divider"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="开启未读提醒"
+                            android:textColor="@color/notify_text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_enabled"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="60dp"
+                            android:showText="false"
+                            android:textOff="关"
+                            android:textOn="开" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_unread"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="当前未读 0 篇"
+                        android:textColor="@color/notify_brand"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="提醒已关闭"
+                        android:textColor="@color/notify_text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="提醒间隔"
+                android:textColor="@color/notify_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_interval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radio_1h"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="每 1 小时检查一次（演示用）"
+                    android:textColor="@color/notify_text_primary" />
+
+                <RadioButton
+                    android:id="@+id/radio_2h"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="每 2 小时检查一次"
+                    android:textColor="@color/notify_text_primary" />
+
+                <RadioButton
+                    android:id="@+id/radio_4h"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="每 4 小时检查一次"
+                    android:textColor="@color/notify_text_primary" />
+
+                <RadioButton
+                    android:id="@+id/radio_8h"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="每 8 小时检查一次"
+                    android:textColor="@color/notify_text_primary" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/text_permission_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/notify_warning_bg"
+                android:padding="12dp"
+                android:text="通知权限未开启：将收不到未读提醒，阅读功能不受影响。"
+                android:textColor="@color/notify_warning_text"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_run_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/notify_brand"
+                android:text="立即检查一次"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/button_test_notification"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="发送一条测试通知" />
+
+            <Button
+                android:id="@+id/button_open_settings"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="打开系统通知设置" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="说明：定时任务由 WorkManager 调度，系统会在合适的时机执行（通常不会精确到分钟级）；为省电，仅在联网时才会尝试同步。"
+                android:textColor="@color/notify_text_tertiary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
